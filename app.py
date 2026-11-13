@@ -25,11 +25,24 @@ def predict_next_word(model, tokenizer, text, max_sequence_len):
 
 #Streamlit app
 st.title("Next Word Prediction using LSTM")
-input_text = st.text_input("Enter a sequence of words:", "To be or not to be")
-if st.button("Predict"):
+input_text = st.text_input("Enter a sequence of words:", "To be or not to be", key ="lstm_input")
+if st.button("Predict for LSTM"):
     if input_text:
         max_sequence_length = model.input_shape[1]+1
         next_word = predict_next_word(model, tokenizer, input_text, max_sequence_length)
+        st.write(f"Predicted next word: {next_word}")
+    else:
+        st.write("Please enter a sequence of words.")
+
+
+#load the gru model
+model = load_model('prediction_with_gru_model.h5')
+st.title("Next Word Prediction using GRU")
+input_text_gru = st.text_input("Enter a sequence of words:", "To be or not to be", key="gru_input")
+if st.button("Predict for GRU"):
+    if input_text_gru:
+        max_sequence_length = model.input_shape[1]+1
+        next_word = predict_next_word(model, tokenizer, input_text_gru, max_sequence_length)
         st.write(f"Predicted next word: {next_word}")
     else:
         st.write("Please enter a sequence of words.")
